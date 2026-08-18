@@ -5,7 +5,7 @@ class AuthController {
         this.authService = new AuthService()
     }
 
-    async login(req, res) {
+    async login(req, res, next) {
         try {
             const { email, password } = req.body;
 
@@ -24,15 +24,11 @@ class AuthController {
                 result: result.user
             });
         } catch (error) {
-            console.error("Login error:", error);
-
-            res.status(500).json({
-                message: error.message || "Internal server error"
-            })
+            next(error)
         }
     }
 
-    async logout(req, res) {
+    async logout(req, res, next) {
         try {
             res.clearCookie("token", {
                 httpOnly: true,
@@ -46,10 +42,7 @@ class AuthController {
                 message: "Logged out successfully",
             });
         } catch (error) {
-            return res.status(500).json({
-                success: false,
-                message: error.message
-            });
+            next(error)
         }
     }
 }

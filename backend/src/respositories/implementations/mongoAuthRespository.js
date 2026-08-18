@@ -17,7 +17,7 @@ class mongoAuthRespository extends IAuthRespository {
 
             return user;
         } catch (error) {
-            throw new AppError(`Failed to fetch admin by ID: ${error.message}`, 500, error)
+            throw new AppError(`Failed to fetch user by ID: ${error.message}`, 500, error)
         }
     }
 }

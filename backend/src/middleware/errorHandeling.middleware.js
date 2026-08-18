@@ -1,18 +1,15 @@
-import { validationResult } from "express-validator";
+const errorHandlingMiddleware = (error, req, res, next) => {
+    console.error(error);
 
-export const errorValidator = (req, res, next) => {
-    const errors = validationResult(req);
+    const statusCode = error.statusCode || 500;
 
-    if (!errors.isEmpty()) {
-        return res.status(400).json({
-            success: false,
-            message: "Validation failed",
-            errors: errors.array().map((error) => ({
-                field: error.path,
-                message: error.msg,
-            })),
-        });
-    }
-
-    next();
+    return res.status(statusCode).json({
+        success: false,
+        message: error.message || "Internal server error",
+        ...(error.error && {
+            error: error.error
+        })
+    });
 };
+
+export default errorHandlingMiddleware;

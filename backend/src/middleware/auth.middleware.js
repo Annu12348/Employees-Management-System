@@ -18,7 +18,7 @@ export const userAuth = async (req, res, next) => {
         const decoded = jwt.verify(token, config.JWT_SECRET_KEY);
 
         const user = await authRepository.userFetchById(decoded.id);
-
+           
         if (!user) {
             return res.status(401).json({
                 success: false,
