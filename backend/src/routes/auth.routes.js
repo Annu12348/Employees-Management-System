@@ -13,6 +13,8 @@ router.post(
     authController.login.bind(authController)
 );
 
+router.get("/me", authController.ProtectedRoute.bind(authController));
+
 router.post(
     "/logout",
     authController.logout.bind(authController)
